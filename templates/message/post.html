@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <a href="{% url 'index' %}">Back</a>
+    <div class="container">
+        <h2 class="mt-5">Search through posts</h2>
+        <div class="card mb-5 mt-5 p-5 text-center">
+            <h3>{{ post.content }}</h3>
+            <div class="text-muted">{{ post.date_created }}</div>
+        </div>
+    </div>
+    <a href="{% url 'view_post' random_post %}">Search for another post</a>
+{% endblock content %}
