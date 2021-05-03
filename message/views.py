@@ -5,7 +5,6 @@ from .models import Post
 from .forms import PostForm
 import random
 
-
 def index(request):
 	posts = Post.objects.all()
 	random_post_id = random.choice(posts.values_list('id', flat=True))
@@ -13,7 +12,6 @@ def index(request):
 
 	context = {
 		'random_post' : random_post,
-		'random_post_id': random_post_id,
 	}
 
 	return render(request, 'message/index.html', context)
@@ -29,7 +27,7 @@ def create_post(request):
 		form = PostForm(request.POST)
 		if form.is_valid():
 			new_post = form.save()
-		return redirect('view_post', pk=new_post.pk)
+		return redirect(f'/post/?search={new_post.id}')
 
 	context = {
 		'form' : form,
@@ -37,18 +35,24 @@ def create_post(request):
 
 	return render(request, 'message/create.html', context)
 
-def view_post(request, pk):
-	posts = Post.objects.all()
-	random_post = random.choice(posts.values_list('id', flat=True))
-	post = Post.objects.get(id=pk)
+def view_post(request):
+    posts = Post.objects.all()
+    random_post = random.choice(posts.values_list('id', flat=True))
+    if request.method == 'GET':
+        search = request.GET.get('search', random_post)
+        post = Post.objects.get(pk=search)
+        context = {
+            'post':post
+        }
+        return render(request, 'message/post.html', context)
+    else:
+        post = Post.objects.get(id=random_post)
 
-	context = {
-		'post' : post,
-		'random_post' : random_post,
-	}
+        context = {
+			'post' : post,
+		}
+        return render(request, 'message/post.html', context)
 
-
-	return render(request, 'message/post.html', context)
 
 
 
