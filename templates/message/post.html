@@ -2,12 +2,31 @@
 
 {% block content %}
     <a href="{% url 'index' %}">Back</a>
-    <div class="container">
+    <div>
         <h2 class="mt-5">Search through posts</h2>
+        <form class="mb-5 mt-5" action="#" method="POST" id="search_form">
+            {% csrf_token %}
+            <div>
+                <p>Search through message ID</p>
+            </div>
+            <input type="text" name="search" id="search_input">
+            <button class="btn btn-sm" type="submit" onclick="change_action()">Search</button>
+        </form>
+        {% if post.pk %}
         <div class="card mb-5 mt-5 p-5 text-center">
             <h3>{{ post.content }}</h3>
             <div class="text-muted">{{ post.date_created }}</div>
         </div>
+        <div class="mb-5 mt-5">
+            <h1>Information</h1>
+            <h3>Message ID: {{ post.pk }}</h3>
+            <h3>Views: </h3>
+        </div>
+        {% else %}
+        <div class="card mb-5 mt-5 p-5 text-center">
+            <h3>Post does not exit</h3>
+        </div>
+        {% endif %}
     </div>
     <a href="{% url 'view_post' random_post %}">Search for another post</a>
 {% endblock content %}
