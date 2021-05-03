@@ -40,21 +40,26 @@ def view_post(request):
     random_post = random.choice(posts.values_list('id', flat=True))
     if request.method == 'GET':
         search = request.GET.get('search', random_post)
-        post = Post.objects.get(pk=search)
-        context = {
-            'post':post
-        }
-        return render(request, 'message/post.html', context)
+        try:
+          post = Post.objects.get(pk=search)
+          post.views += 1
+          post.save()
+          context = {
+				'post':post
+			}
+          return render(request, 'message/post.html', context)
+        except Post.DoesNotExist:
+          return render(request, 'message/post.html')
+      
     else:
         post = Post.objects.get(id=random_post)
+        post.views = post.view + 1
+        post.save()
 
         context = {
 			'post' : post,
 		}
         return render(request, 'message/post.html', context)
-
-
-
 
 def error_404_view(request, exception):
 	return render(request, './404.html')

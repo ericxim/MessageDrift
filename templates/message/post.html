@@ -6,9 +6,13 @@
         <h2 class="mt-5">Search through posts</h2>
         <form class="mb-5 mt-5" action="{% url 'view_post' %}" method="GET" name="search_form" onsubmit="return form_validation()">
             <input type="text" name="search" ID="search_input" placeholder="Enter message ID...">
-            <button class="btn btn-sm" type="submit">Search</button>
+            <button class="btn btn-sm" type="submit" id="search_button">Search</button>
+            <div id="error_msg_div" class="text-danger">
+                
+            </div>
         </form>
-        {% if post.pk %}
+        
+        {% if post %}
         <div class="card mb-5 mt-5 p-5 text-center">
             <h3>{{ post.content }}</h3>
             <div class="text-muted">{{ post.date_created }}</div>
