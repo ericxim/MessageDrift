@@ -4,12 +4,13 @@
   <div class="mb-5 mt-5 border-bottom">
     <h1 class="display-3">What is Message Drift?</h1>
     <h3 class="mb-5 mt-5">MessageDrift is a website that allows people to post and display drifting messages that anyone can find randomly.
-      You can randomly search for a message or enter its ID in order to find it. :)
+      You can randomly search for a message or enter its ID in order to find it. 
     </h3>
   </div>
   <div class="container mb-5 mt-5">
     <h1 class="text-center">Random post</h1>
     <div class="card mb-5 mt-5 p-5 text-center">
+      <h1>{{ random_post.title }}</h1>
       <h3>{{ random_post.content }}</h3>
       <div class="text-muted">{{ random_post.date_created }}</div>
     </div>
@@ -22,13 +23,15 @@
 </div>
 <div class="mb-5 mt-5">
   <div class="border-bottom mb-5">
-    <h1>Communities</h1>
+    <h1 class="mb-3">Communities</h1>
   </div>
   {% for community in communitites %}
-    <div class ="card mt-5 mb-5 p-3">
-      <h2>{{ community.name }}</h2>
-      <p>{{ community.description }}</p>
-    </div>
+    <a href="{% url 'view_community' community.name %}" style="color: inherit">
+      <div class ="card mt-5 mb-5 p-3">
+        <h2>{{ community.name }}</h2>
+        <p>{{ community.description }}</p>
+      </div>
+    </a>
   {% endfor %}
 </div>
 {% endblock content %}

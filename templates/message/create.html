@@ -8,7 +8,17 @@
         <p>Create and post a message</p>
         {% csrf_token %}
         <div>
-            {{ form.content }}
+            <div class="mt-5 mb-5 pu-3 pd-3">
+                <h3>Title</h3>
+                {{ form.title }}
+            </div>
+            <div class="mt-5 mb-5 py-3">
+                <h3>Content</h3>
+                {{ form.content }}
+            <div class="mt-5 mb-5 py-3">
+                <h3>Community (Optional)</h3>
+                {{ form.community_id }}
+            </div>
         </div>
         <div class=mt-3>
             <input type="submit" name="create_post" value="Post">

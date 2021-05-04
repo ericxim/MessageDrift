@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 
 class Post(models.Model):
+    title = models.CharField(max_length=30)
     content = models.TextField()
     date_created = models.DateTimeField(default=timezone.now)
     views = models.BigIntegerField(default=0)
