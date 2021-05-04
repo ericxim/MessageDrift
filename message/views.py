@@ -1,20 +1,22 @@
 from django.shortcuts import render, redirect
 from django.views.generic import View
 from django.views.generic.list import ListView
-from .models import Post
+from .models import *
 from .forms import PostForm
 import random
 
 def index(request):
-	posts = Post.objects.all()
-	random_post_id = random.choice(posts.values_list('id', flat=True))
-	random_post = Post.objects.get(id=random_post_id)
+    communities = Communities.objects.all() 
+    posts = Post.objects.all()
+    random_post_id = random.choice(posts.values_list('id', flat=True))
+    random_post = Post.objects.get(id=random_post_id)
 
-	context = {
+    context = {
 		'random_post' : random_post,
+		'communitites': communities,
 	}
 
-	return render(request, 'message/index.html', context)
+    return render(request, 'message/index.html', context)
 
 def about(request):
 	return render(request, 'message/about.html')
