@@ -1,18 +1,24 @@
 {% extends 'base.html' %}
-
+{% block header %}
+<div class="jumbotron">
+    <div class="container">
+        <h1>{{ community.name }}</h1>
+        <p>{{ community.description }}</p>
+    </div>
+</div>
+{% endblock header %}
 {% block content %}
-<a href="{% url 'index' %}">Back</a>
 {% if post_list %}
 {% for post in post_list %}
-<div class="card mb-5 mt-5 p-5">
-    <h2>{{ post.title }}</h2>
-    <h3>{{ post.content }}</h3>
-    <div class="text-muted">Date: {{ post.date_created }}</div>
-</div>
+<a href="{% url 'view_post' post.pk %}" style="color:inherit">
+    <div class="card mb-5 mt-5 p-5">
+        <h2>{{ post.title }}</h2>
+        <h3>{{ post.content }}</h3>
+        <div class="text-muted">Date: {{ post.date_created }}</div>
+    </div>
+</a>
 {% endfor %}
 {% else %}
-<div class="jumbotron">
-    <h1>There are no posts in this community :(</h1>
-</div>
+<h1>There are no posts in this community</h1>
 {% endif %}
 {% endblock content %}

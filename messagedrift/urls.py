@@ -15,10 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from users import views as user_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
    	path('', include('message.urls')),
+    path('register/', user_views.RegisterView.as_view(), name='register'),
+    path('user/<str:name>', user_views.ProfileView.as_view(), name='profile'),
 ]
 
 handler404 = 'message.views.error_404_view'

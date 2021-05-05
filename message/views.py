@@ -1,6 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import View
 from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
 from .models import *
 from .forms import PostForm
 import random
@@ -37,42 +38,28 @@ def create_post(request):
 
 	return render(request, 'message/create.html', context)
 
-class ViewPost(View):
-  template = 'message/post.html'
-  def get(self, request, *args, **kwargs):
-    posts = Post.objects.all()
-    random_post = random.choice(posts.values_list('id', flat=True))
-    search = request.GET.get('search', random_post)
-    try:
-      post = Post.objects.get(pk=search)
-      post.views += 1
-      post.save()
-      context = {
-				'post':post
-			}
-      return render(request, 'message/post.html', context)
-    except Post.DoesNotExist:
-      return render(request, 'message/post.html')
-    else:
-      post = Post.objects.get(id=random_post)
-      post.views = post.view + 1
-      post.save()
-
-      context = {
-        'post' : post,
-      }
-      return render(request, 'message/post.html', context)
+class ViewPost(DetailView):
+  template_name = 'message/post.html'
+  def get_queryset(self):
+    self.post = get_object_or_404(Post, pk=self.kwargs['pk'])
+    self.post.views += 1
+    self.post.save()
+    return Post.objects.filter(pk=self.post.id)
+  
         
 class ViewCommunity(ListView):
   template_name = 'message/community.html'
-  context_object_name = "post_list"
-  model = Communities
+  context_object_name = 'post_list'
+  
+  def get_queryset(self):
+    self.community = get_object_or_404(Communities, name=self.kwargs['name'])
+    return Post.objects.filter(community_id=self.community.id)
+
   
   def get_context_data(self, **kwargs):
     community = Communities.objects.get(name=self.kwargs['name'])
-    print(community.name, community.pk)
     context = super(ViewCommunity, self).get_context_data(**kwargs)
-    context['post_list'] = Post.objects.all().filter(community_id=community.pk)
+    context['community'] = self.community
     return context
   
 def error_404_view(request, exception):

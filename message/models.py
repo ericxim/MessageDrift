@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 from django.utils import timezone
 
 class Post(models.Model):
@@ -7,7 +8,7 @@ class Post(models.Model):
     date_created = models.DateTimeField(default=timezone.now)
     views = models.BigIntegerField(default=0)
     community_id = models.ForeignKey('Communities', models.SET_NULL, null=True, blank=True)
-
+    
     def __str__(self):
         return self.content
     
