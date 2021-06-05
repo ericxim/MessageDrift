@@ -1,17 +1,28 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <div class="my-5">
-    <h1 class="display-3">MessageDrift</h1>
-
+<div class="my-5 title-container">
+    <h1>MessageDrift</h1>
+    <div class="my-5">
+      <p>A place where you can communicate with others</p>
+    </div>
+</div>
+    
 <div class="my-5">
   <div class="border-bottom my-5">
+    {% for post in post_list %}
+    <a href="{% url 'view_post' post.id %}" class="post-hyperlink">
+      <div class ="card my-5 p-3">
+        <h1>{{ post.title }}</h1>
+      </div>
+    </a>
+    {% endfor %}
     <h1>Communities</h1>
   </div>
-  {% for community in communitites %}
-    <a href="{% url 'view_community' community.name %}" style="color: inherit">
-      <div class ="card mt-5 mb-5 p-3">
-        <h2>{{ community.name }}</h2>
+  {% for community in communities %}
+    <a href="{% url 'view_community' community.slug %}" class="post-hyperlink">
+      <div class ="card my-5 p-3">
+        <h1>{{ community.name }}</h1>
         <p>{{ community.description }}</p>
       </div>
     </a>

@@ -2,16 +2,16 @@
 {% block header %}
 <div class="jumbotron">
     <div class="container">
-        <h1>{{ community.name }}</h1>
-        <p>{{ community.description }}</p>
+        <h1 class="border-bottom pb-3">{{ community.name }}</h1>
+        <p class="pt-3">{{ community.description }}</p>
     </div>
 </div>
 {% endblock header %}
 {% block content %}
 {% if post_list %}
 {% for post in post_list %}
-<a href="{% url 'view_post' post.pk %}" style="color:inherit">
-    <div class="card mb-5 mt-5 p-5">
+<a href="{% url 'view_post' post.pk %}" class="post-hyperlink">
+    <div class="card my-5 p-3">
         <h2>{{ post.title }}</h2>
         <h3>{{ post.content }}</h3>
         <div class="text-muted">Date: {{ post.date_created }}</div>

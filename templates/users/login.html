@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="border-bottom">
+    <h1>Login</h1>
+</div>
+<div class="py-5">
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="my-3">
+            <div>
+                <label>Username</label>
+            </div>
+            {{ form.username }}
+        </div>
+        <div class="my-3">
+            <div>
+                <label>Password</label>
+            </div>
+            {{ form.password }}
+        </div>
+        <div>
+            <button class="btn btn-dark">Login</button>
+        </div>
+    </form>
+</div>
+{% endblock content %}

@@ -4,39 +4,17 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from .models import *
 from .forms import PostForm
-import random
 
-def index(request):
-  communities = Communities.objects.all() 
-  posts = Post.objects.all()
-  random_post_id = random.choice(posts.values_list('id', flat=True))
-  random_post = Post.objects.get(id=random_post_id)
+class ViewIndex(ListView):
+  template_name = 'message/index.html'
+  context_object_name = 'post_list'
+  model = Post
+  
+  def get_context_data(self, **kwargs):
+    context = super(ViewIndex, self).get_context_data(**kwargs)
+    context['communities'] = Communities.objects.all()
+    return context
 
-  context = {
-		'random_post' : random_post,
-		'communitites': communities,
-	}
-
-  return render(request, 'message/index.html', context)
-
-def about(request):
-	return render(request, 'message/about.html')
-
-def create_post(request):
-	form = PostForm()
-
-	if request.method == 'POST':
-		print(request.POST)
-		form = PostForm(request.POST)
-		if form.is_valid():
-			new_post = form.save()
-		return redirect(f'/post/?search={new_post.id}')
-
-	context = {
-		'form' : form,
-	}
-
-	return render(request, 'message/create.html', context)
 
 class ViewPost(DetailView):
   template_name = 'message/post.html'
@@ -52,12 +30,12 @@ class ViewCommunity(ListView):
   context_object_name = 'post_list'
   
   def get_queryset(self):
-    self.community = get_object_or_404(Communities, name=self.kwargs['name'])
+    self.community = get_object_or_404(Communities, name=self.kwargs['slug'])
     return Post.objects.filter(community_id=self.community.id)
 
   
   def get_context_data(self, **kwargs):
-    community = Communities.objects.get(name=self.kwargs['name'])
+    community = Communities.objects.get(name=self.kwargs['slug'])
     context = super(ViewCommunity, self).get_context_data(**kwargs)
     context['community'] = self.community
     return context

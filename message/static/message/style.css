@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@100&display=swap');
+
+body{
+    font-family: 'Lato', sans-serif, !important;
+}
+
+.post-hyperlink{
+    color: inherit;
+    text-decoration: none;
+}
+
+
+.title-container p{
+    font-weight: 900;
+    color: #fc3838;
+}
+
+
+.navbar ul a {
+    color: black;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.navbar-nav a:hover {
+    border-bottom:  solid #fc3838;
+}

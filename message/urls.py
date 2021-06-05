@@ -1,12 +1,12 @@
 from django.urls import path
 from . import views
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
 
-    path('', views.index, name='index'),
-    path('about/', views.about, name='about'),
-    path('create/', views.create_post, name='create_post'),
+    path('', views.ViewIndex.as_view(), name='index'),
     path('post/<int:pk>', views.ViewPost.as_view(), name='view_post'),
-    path('community/<str:name>', views.ViewCommunity.as_view(), name='view_community'),
+    path('community/<slug:slug>', views.ViewCommunity.as_view(), name='view_community'),
 
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
